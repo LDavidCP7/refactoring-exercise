@@ -33,6 +33,30 @@ public class FundingRaised{
         mapped.put("round", csvData.get(i)[9]);
     }
 
+    public static Map<String, String> mapCondition (int i, Map<String, String> mapped, Map<String, String> options, List<String[]> csvData){
+        if (options.containsKey("company_name")) {
+            if (csvData.get(i)[1].equals(options.get("company_name"))) {
+                mapeo(i, csvData, mapped);
+            }
+        }
+        if (options.containsKey("city")) {
+            if (csvData.get(i)[4].equals(options.get("city"))) {
+                mapeo(i, csvData, mapped);
+            }
+        }
+        if (options.containsKey("state")) {
+            if (csvData.get(i)[5].equals(options.get("state"))) {
+                mapeo(i, csvData, mapped);
+            }
+        }
+        if (options.containsKey("round")) {
+            if (csvData.get(i)[9].equals(options.get("round"))) {
+                mapeo(i, csvData, mapped);
+            }
+        }
+        return mapped;
+    }
+
     public static List<Map<String, String>> where(Map<String, String> options) throws IOException {
         List<String[]> csvData = new ArrayList<String[]>();
         CSVReader reader = new CSVReader(new FileReader("startup_funding.csv"));
@@ -75,35 +99,7 @@ public class FundingRaised{
         Map<String, String> mapped = new HashMap<String, String>();
 
         for (int i = 0; i < csvData.size(); i++) {
-            if (options.containsKey("company_name")) {
-                if (csvData.get(i)[1].equals(options.get("company_name"))) {
-                    mapeo(i, csvData, mapped);
-                } else {
-                    continue;
-                }
-            }
-            if (options.containsKey("city")) {
-                if (csvData.get(i)[4].equals(options.get("city"))) {
-                    mapeo(i, csvData, mapped);
-                } else {
-                    continue;
-                }
-            }
-            if (options.containsKey("state")) {
-                if (csvData.get(i)[5].equals(options.get("state"))) {
-                    mapeo(i, csvData, mapped);
-                } else {
-                    continue;
-                }
-            }
-            if (options.containsKey("round")) {
-                if (csvData.get(i)[9].equals(options.get("round"))) {
-                    mapeo(i, csvData, mapped);
-                } else {
-                    continue;
-                }
-            }
-            return mapped;
+            mapCondition(i, mapped, options, csvData);
         }
         throw new NoSuchEntryException();
     }
