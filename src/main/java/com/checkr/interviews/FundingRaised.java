@@ -9,15 +9,12 @@ public class FundingRaised{
 
     public static List<String[]> applyFilter(String key, int id, Map<String, String> options, List<String[]> csvData) {
         List<String[]> results = new ArrayList<String[]>();
-        if (options.containsKey(key)) {
             for (int i = 0; i < csvData.size(); i++) {
                 if (csvData.get(i)[id].equals(options.get(key))) {
                     results.add(csvData.get(i));
                 }
             }
-            csvData = results;
-        }
-        return csvData;
+        return results;
     }
 
     public static void mapping(int i, List<String[]> csvData, Map<String, String> mapped) {
@@ -67,11 +64,18 @@ public class FundingRaised{
         }
 
         reader.close();
-
-        csvData = applyFilter("company_name", 1, options, csvData);
-        csvData = applyFilter("city", 4, options, csvData);
-        csvData = applyFilter("state", 5, options, csvData);
-        csvData = applyFilter("round", 9, options, csvData);
+        if (options.containsKey("company_name")) {
+            csvData = applyFilter("company_name", 1, options, csvData);
+        }
+        if (options.containsKey("city")) {
+            csvData = applyFilter("city", 4, options, csvData);
+        }
+        if (options.containsKey("state")) {
+            csvData = applyFilter("state", 5, options, csvData);
+        }
+        if (options.containsKey("round")) {
+            csvData = applyFilter("round", 9, options, csvData);
+        }
 
         List<Map<String, String>> output = new ArrayList<Map<String, String>>();
 
