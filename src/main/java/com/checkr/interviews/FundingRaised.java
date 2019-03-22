@@ -67,7 +67,6 @@ public class FundingRaised{
         }
 
         reader.close();
-        csvData.remove(0);
 
         csvData = applyFilter("company_name", 1, options, csvData);
         csvData = applyFilter("city", 4, options, csvData);
