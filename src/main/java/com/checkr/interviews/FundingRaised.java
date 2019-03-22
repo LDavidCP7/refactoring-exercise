@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class FundingRaised{
 
-    public static List<String[]> getInfo(String key, int id, Map<String, String> options, List<String[]> csvData) {
+    public static List<String[]> applyFilter(String key, int id, Map<String, String> options, List<String[]> csvData) {
         List<String[]> results = new ArrayList<String[]>();
         if (options.containsKey(key)) {
             for (int i = 0; i < csvData.size(); i++) {
@@ -20,7 +20,7 @@ public class FundingRaised{
         return csvData;
     }
 
-    public static void mapeo(int i, List<String[]> csvData, Map<String, String> mapped) {
+    public static void mapping(int i, List<String[]> csvData, Map<String, String> mapped) {
         mapped.put("permalink", csvData.get(i)[0]);
         mapped.put("company_name", csvData.get(i)[1]);
         mapped.put("number_employees", csvData.get(i)[2]);
@@ -36,22 +36,22 @@ public class FundingRaised{
     public static Map<String, String> mapCondition (int i, Map<String, String> mapped, Map<String, String> options, List<String[]> csvData){
         if (options.containsKey("company_name")) {
             if (csvData.get(i)[1].equals(options.get("company_name"))) {
-                mapeo(i, csvData, mapped);
+                mapping(i, csvData, mapped);
             }
         }
         if (options.containsKey("city")) {
             if (csvData.get(i)[4].equals(options.get("city"))) {
-                mapeo(i, csvData, mapped);
+                mapping(i, csvData, mapped);
             }
         }
         if (options.containsKey("state")) {
             if (csvData.get(i)[5].equals(options.get("state"))) {
-                mapeo(i, csvData, mapped);
+                mapping(i, csvData, mapped);
             }
         }
         if (options.containsKey("round")) {
             if (csvData.get(i)[9].equals(options.get("round"))) {
-                mapeo(i, csvData, mapped);
+                mapping(i, csvData, mapped);
             }
         }
         return mapped;
@@ -69,16 +69,16 @@ public class FundingRaised{
         reader.close();
         csvData.remove(0);
 
-        csvData = getInfo("company_name", 1, options, csvData);
-        csvData = getInfo("city", 4, options, csvData);
-        csvData = getInfo("state", 5, options, csvData);
-        csvData = getInfo("round", 9, options, csvData);
+        csvData = applyFilter("company_name", 1, options, csvData);
+        csvData = applyFilter("city", 4, options, csvData);
+        csvData = applyFilter("state", 5, options, csvData);
+        csvData = applyFilter("round", 9, options, csvData);
 
         List<Map<String, String>> output = new ArrayList<Map<String, String>>();
 
         for (int i = 0; i < csvData.size(); i++) {
             Map<String, String> mapped = new HashMap<String, String>();
-            mapeo(i, csvData, mapped);
+            mapping(i, csvData, mapped);
             output.add(mapped);
         }
 

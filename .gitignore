@@ -1,1 +1,5 @@
 /target
+/.vscode
+pmo.xml
+Readme.md
+/.settings
